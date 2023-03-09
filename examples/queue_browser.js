@@ -13,42 +13,44 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-var container = require("rhea")
+var container = require('rhea')
 
-var args = require("./options.js")
-  .options({
-    m: {
-      alias: "messages",
-      default: 100,
-      describe: "number of messages to expect",
-    },
-    n: {
-      alias: "node",
-      default: "examples",
-      describe: "name of queue to browse",
-    },
-    h: {
-      alias: "host",
-      default: "localhost",
-      describe: "dns or ip name of server where you want to connect",
-    },
-    p: { alias: "port", default: 5672, describe: "port to connect to" },
-  })
-  .help("help").argv
+var args = require('./options.js')
+    .options({
+        m: {
+            alias: 'messages',
+            default: 100,
+            describe: 'number of messages to expect',
+        },
+        n: {
+            alias: 'node',
+            default: 'examples',
+            describe: 'name of queue to browse',
+        },
+        h: {
+            alias: 'host',
+            default: 'localhost',
+            describe: 'dns or ip name of server where you want to connect',
+        },
+        p: { alias: 'port', default: 5672, describe: 'port to connect to' },
+    })
+    .help('help').argv
 
 var received = 0
 var expected = args.messages
 
-container.on("message", function (context) {
-  if (expected === 0 || received < expected) {
-    console.log(JSON.stringify(context.message.body))
-    if (++received === expected) {
-      context.receiver.detach()
-      context.connection.close()
+container.on('message', function (context) {
+    if (expected === 0 || received < expected) {
+        console.log(JSON.stringify(context.message.body))
+        if (++received === expected) {
+            context.receiver.detach()
+            context.connection.close()
+        }
     }
-  }
 })
 
 container
-  .connect({ port: args.port, host: args.host })
-  .open_receiver({ source: { address: args.node, distribution_mode: "copy" } })
+    .connect({ port: args.port, host: args.host })
+    .open_receiver({
+        source: { address: args.node, distribution_mode: 'copy' },
+    })

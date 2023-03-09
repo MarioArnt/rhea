@@ -13,20 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-var container = require("rhea")
-container.on("message", function (context) {
-  console.log(context.message.body)
+var container = require('rhea')
+container.on('message', function (context) {
+    console.log(context.message.body)
 })
-container.on("accepted", function (context) {
-  context.connection.close()
+container.on('accepted', function (context) {
+    context.connection.close()
 })
-container.once("sendable", function (context) {
-  context.sender.send({ body: "Hello World!" })
+container.once('sendable', function (context) {
+    context.sender.send({ body: 'Hello World!' })
 })
 var server = container.listen({ port: 8888 })
-server.once("listening", function () {
-  container.connect({ port: 8888 }).open_sender("examples")
+server.once('listening', function () {
+    container.connect({ port: 8888 }).open_sender('examples')
 })
-server.once("connection", function () {
-  server.close()
+server.once('connection', function () {
+    server.close()
 })

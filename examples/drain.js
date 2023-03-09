@@ -13,48 +13,47 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-var container = require("rhea")
+var container = require('rhea')
 
-var args = require("./options.js")
-  .options({
-    n: {
-      alias: "node",
-      default: "examples",
-      describe: "name of node (e.g. queue) from which messages are received",
-    },
-    h: {
-      alias: "host",
-      default: "localhost",
-      describe: "dns or ip name of server where you want to connect",
-    },
-    p: { alias: "port", default: 5672, describe: "port to connect to" },
-  })
-  .help("help").argv
+var args = require('./options.js')
+    .options({
+        n: {
+            alias: 'node',
+            default: 'examples',
+            describe:
+                'name of node (e.g. queue) from which messages are received',
+        },
+        h: {
+            alias: 'host',
+            default: 'localhost',
+            describe: 'dns or ip name of server where you want to connect',
+        },
+        p: { alias: 'port', default: 5672, describe: 'port to connect to' },
+    })
+    .help('help').argv
 
 var batch = 10
 var received = 0
 
-container.on("message", function (context) {
-  console.log(JSON.stringify(context.message.body))
-  if (++received === batch) {
-    received = 0
-    context.receiver.add_credit(batch)
-  }
+container.on('message', function (context) {
+    console.log(JSON.stringify(context.message.body))
+    if (++received === batch) {
+        received = 0
+        context.receiver.add_credit(batch)
+    }
 })
 
-container.on("receiver_open", function (context) {
-  context.receiver.flow(batch)
-  context.receiver.drain = true
+container.on('receiver_open', function (context) {
+    context.receiver.flow(batch)
+    context.receiver.drain = true
 })
 
-container.on("receiver_drained", function (context) {
-  context.receiver.detach()
-  context.connection.close()
+container.on('receiver_drained', function (context) {
+    context.receiver.detach()
+    context.connection.close()
 })
 
-container
-  .connect({ port: args.port, host: args.host })
-  .open_receiver({
+container.connect({ port: args.port, host: args.host }).open_receiver({
     source: { address: args.node },
     credit_window: 0 /*disable automatic credit*/,
-  })
+})

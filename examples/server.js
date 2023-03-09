@@ -13,21 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-var container = require("rhea")
+var container = require('rhea')
 
-container.on("connection_open", function (context) {
-  context.connection.open_receiver("examples")
+container.on('connection_open', function (context) {
+    context.connection.open_receiver('examples')
 })
 
-container.on("message", function (context) {
-  var request = context.message
-  var reply_to = request.reply_to
-  console.log("Received: " + request.body)
-  var response = { to: reply_to, body: request.body.toString().toUpperCase() }
-  if (request.correlation_id) {
-    response.correlation_id = request.correlation_id
-  }
-  context.connection.send(response)
+container.on('message', function (context) {
+    var request = context.message
+    var reply_to = request.reply_to
+    console.log('Received: ' + request.body)
+    var response = { to: reply_to, body: request.body.toString().toUpperCase() }
+    if (request.correlation_id) {
+        response.correlation_id = request.correlation_id
+    }
+    context.connection.send(response)
 })
 
 container.connect({ port: 5672 })

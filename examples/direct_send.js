@@ -13,44 +13,44 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-var container = require("rhea")
+var container = require('rhea')
 
-var args = require("./options.js")
-  .options({
-    m: {
-      alias: "messages",
-      default: 100,
-      describe: "number of messages to send",
-    },
-    p: { alias: "port", default: 8888, describe: "port to connect to" },
-  })
-  .help("help").argv
+var args = require('./options.js')
+    .options({
+        m: {
+            alias: 'messages',
+            default: 100,
+            describe: 'number of messages to send',
+        },
+        p: { alias: 'port', default: 8888, describe: 'port to connect to' },
+    })
+    .help('help').argv
 
 var server = container.listen({ port: args.port })
 
 var confirmed = 0,
-  sent = 0
+    sent = 0
 var total = args.messages
 
-container.on("sendable", function (context) {
-  while (context.sender.sendable() && sent < total) {
-    sent++
-    console.log("sent " + sent)
-    context.sender.send({ message_id: sent, body: { sequence: sent } })
-  }
-  if (sent === total) {
-    context.sender.set_drained(sent === total)
-  }
+container.on('sendable', function (context) {
+    while (context.sender.sendable() && sent < total) {
+        sent++
+        console.log('sent ' + sent)
+        context.sender.send({ message_id: sent, body: { sequence: sent } })
+    }
+    if (sent === total) {
+        context.sender.set_drained(sent === total)
+    }
 })
-container.on("accepted", function (context) {
-  if (++confirmed === total) {
-    console.log("all messages confirmed")
-    context.connection.close({
-      condition: "amqp:connection:forced",
-      description: "Time to go!",
-    })
-  }
+container.on('accepted', function (context) {
+    if (++confirmed === total) {
+        console.log('all messages confirmed')
+        context.connection.close({
+            condition: 'amqp:connection:forced',
+            description: 'Time to go!',
+        })
+    }
 })
-container.on("disconnected", function (context) {
-  sent = confirmed
+container.on('disconnected', function (context) {
+    sent = confirmed
 })

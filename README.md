@@ -5,8 +5,8 @@
 A reactive library for the [AMQP](http://amqp.org/) protocol, for easy
 development of both clients and servers.
 
-- [Hello World!](#hello-world)
-- [API](#api)
+-   [Hello World!](#hello-world)
+-   [API](#api)
 
 ## Hello World!
 
@@ -14,17 +14,17 @@ Brief example of sending and receiving a message through a
 broker/server listening on port 5672:
 
 ```js
-var container = require("rhea")
-container.on("message", function (context) {
-  console.log(context.message.body)
-  context.connection.close()
+var container = require('rhea')
+container.on('message', function (context) {
+    console.log(context.message.body)
+    context.connection.close()
 })
-container.once("sendable", function (context) {
-  context.sender.send({ body: "Hello World!" })
+container.once('sendable', function (context) {
+    context.sender.send({ body: 'Hello World!' })
 })
 var connection = container.connect({ port: 5672 })
-connection.open_receiver("examples")
-connection.open_sender("examples")
+connection.open_receiver('examples')
+connection.open_sender('examples')
 ```
 
 output:
@@ -35,39 +35,39 @@ Hello World!
 
 ## Dependencies
 
-- debug (For simple debug logging - may be replaced in the near
-  term. To enable set e.g. DEBUG=rhea\* or DEBUG=rhea:events for more
-  qualified debugging)
+-   debug (For simple debug logging - may be replaced in the near
+    term. To enable set e.g. DEBUG=rhea\* or DEBUG=rhea:events for more
+    qualified debugging)
 
 ## Examples
 
 There are some examples of using the library under the examples
 folder. These include:
 
-- [helloworld.js](examples/helloworld.js) - essentially the code above, which
-  sends and receives a single message through a broker
+-   [helloworld.js](examples/helloworld.js) - essentially the code above, which
+    sends and receives a single message through a broker
 
-- [direct_helloworld.js](examples/direct_helloworld.js) - an example
-  showing the sending of a single message without the use of a broker,
-  by listening on a port and then openning a connection to itself over
-  which the message is transfered.
+-   [direct_helloworld.js](examples/direct_helloworld.js) - an example
+    showing the sending of a single message without the use of a broker,
+    by listening on a port and then openning a connection to itself over
+    which the message is transfered.
 
-- [send_raw.js](examples/send_raw.js) - explicitly set the [data section](http://docs.oasis-open.org/amqp/core/v1.0/os/amqp-core-messaging-v1.0-os.html#type-data) of the message body
+-   [send_raw.js](examples/send_raw.js) - explicitly set the [data section](http://docs.oasis-open.org/amqp/core/v1.0/os/amqp-core-messaging-v1.0-os.html#type-data) of the message body
 
-- [simple_send.js](examples/simple_send.js) - connects to a specified
-  port then sends a number of messages to a given address
+-   [simple_send.js](examples/simple_send.js) - connects to a specified
+    port then sends a number of messages to a given address
 
-- [simple_recv.js](examples/simple_recv.js) - connects to a specified
-  port then subscribes to receive a number of messages from a given
-  address
+-   [simple_recv.js](examples/simple_recv.js) - connects to a specified
+    port then subscribes to receive a number of messages from a given
+    address
 
 These last two can be used together to demsontrate sending messages
 from one process to another, using a broker or similar intermediary to
 which they both connect.
 
-- [direct_recv.js](examples/direct_recv.js) - listens on a given port
-  for incoming connections over which it will then receive a number of
-  messages
+-   [direct_recv.js](examples/direct_recv.js) - listens on a given port
+    for incoming connections over which it will then receive a number of
+    messages
 
 The direct_recv.js example can be used in conjunction with the
 simple_send.js example to demonstrate sending messages between
@@ -75,50 +75,50 @@ processes without the use of any intermediary. Note however the the
 default port of one or ther other will need to be changed through the
 -p command line option.
 
-- [client.js](examples/client.js) and [server.js](examples/server.js)
+-   [client.js](examples/client.js) and [server.js](examples/server.js)
 
-  - A request-response example where the 'client' sends messages to a
-    'server' (or service) which converts them to upper case and sends
-    them back. This demonstrates the use of temporary addresses among
-    other things. Using these two together requires a broker or similar
-    intermediary.
+    -   A request-response example where the 'client' sends messages to a
+        'server' (or service) which converts them to upper case and sends
+        them back. This demonstrates the use of temporary addresses among
+        other things. Using these two together requires a broker or similar
+        intermediary.
 
-- In durable_subscription, a
-  [subscriber](examples/durable_subscription/subscriber.js) and a
-  [publisher](examples/durable_subscription/publisher.js)which
-  demonstrate the notion of a durable subscription when used in
-  conjunction with a broker such as ActiveMQ
+-   In durable_subscription, a
+    [subscriber](examples/durable_subscription/subscriber.js) and a
+    [publisher](examples/durable_subscription/publisher.js)which
+    demonstrate the notion of a durable subscription when used in
+    conjunction with a broker such as ActiveMQ
 
-- In selector a [receiver](examples/selector/recv.js) that uses a
-  selector - a SQL like query string that restricts the set of
-  messages delivered - and an accompanying
-  [sender](examples/selector/send.js)
+-   In selector a [receiver](examples/selector/recv.js) that uses a
+    selector - a SQL like query string that restricts the set of
+    messages delivered - and an accompanying
+    [sender](examples/selector/send.js)
 
-- In sasl a [sasl client](examples/sasl/simple_sasl_client.js) showing
-  how to authenticate to the service you connect to. This can be used
-  against any broker as well as either of two example servers showing
-  [anonymous](examples/sasl/sasl_anonymous_server.js) and
-  [plain](examples/sasl/sasl_plain_server.js) mechanisms.
+-   In sasl a [sasl client](examples/sasl/simple_sasl_client.js) showing
+    how to authenticate to the service you connect to. This can be used
+    against any broker as well as either of two example servers showing
+    [anonymous](examples/sasl/sasl_anonymous_server.js) and
+    [plain](examples/sasl/sasl_plain_server.js) mechanisms.
 
-- A tls [client](examples/tls/tls_client.js) and
-  [server](examples/tls/tls_server.js) demonstrating connecting (and
-  possibly authenticating) over a tls secured socket.
+-   A tls [client](examples/tls/tls_client.js) and
+    [server](examples/tls/tls_server.js) demonstrating connecting (and
+    possibly authenticating) over a tls secured socket.
 
-- A [client](examples/reconnect/client.js) to demonstrate the built in
-  automatic reconnection functionality along with a simple [echo
-  server](examples/reconnect/echo.js) against which it can be run. It
-  can of course also be run against a broker instead (or as well!).
+-   A [client](examples/reconnect/client.js) to demonstrate the built in
+    automatic reconnection functionality along with a simple [echo
+    server](examples/reconnect/echo.js) against which it can be run. It
+    can of course also be run against a broker instead (or as well!).
 
-- Both [node based](examples/websockets/client.js) and [web
-  based](examples/websockets/client.html) websocket clients along with
-  a [server](examples/websockets/echo.js) which will echo back any
-  requests received. The clients can also be used against a websocket
-  enabled AMQP broker with a queue or topic called 'examples'. The
-  node based scritps require the 'ws' node module to be installed. The
-  browser based example requires a browserified version of the rhea
-  library (this can be created e.g. by calling npm run-script
-  browserify or make browserify). The browserified and minimized
-  javascript library is stored under the dist/ directory.
+-   Both [node based](examples/websockets/client.js) and [web
+    based](examples/websockets/client.html) websocket clients along with
+    a [server](examples/websockets/echo.js) which will echo back any
+    requests received. The clients can also be used against a websocket
+    enabled AMQP broker with a queue or topic called 'examples'. The
+    node based scritps require the 'ws' node module to be installed. The
+    browser based example requires a browserified version of the rhea
+    library (this can be created e.g. by calling npm run-script
+    browserify or make browserify). The browserified and minimized
+    javascript library is stored under the dist/ directory.
 
 To run the examples you will need the dependencies installed: the
 library itself depends on the 'debug' module, and some of the examples
@@ -137,11 +137,11 @@ offered by the ActiveMQ or Qpid Apache projects, is running.
 
 There are five core types of object in the API:
 
-- <a href="#container">Containers</a>,
-- <a href="#connection">Connections</a>,
-- <a href="#session">Sessions</a>,
-- <a href="#receiver">Receivers</a>,
-- and <a href="#sender">Senders</a>
+-   <a href="#container">Containers</a>,
+-   <a href="#connection">Connections</a>,
+-   <a href="#session">Sessions</a>,
+-   <a href="#receiver">Receivers</a>,
+-   and <a href="#sender">Senders</a>
 
 Each of these inherits all the methods of EventEmitter, allowing
 handlers for particular events to be attached. Events that are not
@@ -152,8 +152,8 @@ scope, and if not there then in container scope.
 
 Two other relevant objects are:
 
-- <a href="#message">Message</a>
-- and <a href="#delivery">Delivery</a>
+-   <a href="#message">Message</a>
+-   and <a href="#delivery">Delivery</a>
 
 ---
 
@@ -181,47 +181,47 @@ and
 [tls.connect](https://nodejs.org/api/tls.html#tlsconnectoptions-callback)
 options and any of the following fields:
 
-- host - `socket.connect` option, defaults to localhost
-- port - `socket.connect` option, defaults to 5672
-- transport - undefined, 'tcp' or 'tls', determines if
-  `socket.connect` or `tls.connect` options are accepted
-- username
-- password
-- sasl_init_hostname
-- reconnect
-  - if true (the default), the library will automatically attempt to
-    reconnect if disconnected
-  - if false, automatic reconnect will be disabled
-  - if it is a numeric value, it is interpreted as the delay between
-    reconnect attempts (in milliseconds)
-    When enabled, reconnect can be further controlled via the
-    following options:
-  - initial_reconnect_delay (in milliseconds)
-  - max_reconnect_delay (in milliseconds)
-  - reconnect_limit (maximum number of reconnect attempts)
-- connection_details - a function which if specified will be invoked
-  to get the options to use (e.g. this can be used to alternate
-  between a set of different host/port combinations)
+-   host - `socket.connect` option, defaults to localhost
+-   port - `socket.connect` option, defaults to 5672
+-   transport - undefined, 'tcp' or 'tls', determines if
+    `socket.connect` or `tls.connect` options are accepted
+-   username
+-   password
+-   sasl_init_hostname
+-   reconnect
+    -   if true (the default), the library will automatically attempt to
+        reconnect if disconnected
+    -   if false, automatic reconnect will be disabled
+    -   if it is a numeric value, it is interpreted as the delay between
+        reconnect attempts (in milliseconds)
+        When enabled, reconnect can be further controlled via the
+        following options:
+    -   initial_reconnect_delay (in milliseconds)
+    -   max_reconnect_delay (in milliseconds)
+    -   reconnect_limit (maximum number of reconnect attempts)
+-   connection_details - a function which if specified will be invoked
+    to get the options to use (e.g. this can be used to alternate
+    between a set of different host/port combinations)
 
 As well as Container options common for both client and server:
 
-- id - connection name
-- container_id - (overrides the container identifier)
-- hostname - to present to remote in the open frame (defaults to host)
-- max_frame_size
-- channel_max
-- idle_time_out
-- outgoing_locales - in open frame
-- incoming_locales - in open frame
-- offered_capabilities - in open frame
-- desired_capabilities - in open frame
-- properties - in open frame
-- sender_options - defaults for open_sender
-- receiver_options - defaults for open_receiver
-- non_fatal_errors - an array of error conditions which if received
-  on connection close from peer should not prevent reconnect (by
-  default this only includes amqp:connection:forced)
-- all_errors_non_fatal - a boolean which determines if rhea's auto-reconnect should attempt reconnection on all fatal errors
+-   id - connection name
+-   container_id - (overrides the container identifier)
+-   hostname - to present to remote in the open frame (defaults to host)
+-   max_frame_size
+-   channel_max
+-   idle_time_out
+-   outgoing_locales - in open frame
+-   incoming_locales - in open frame
+-   offered_capabilities - in open frame
+-   desired_capabilities - in open frame
+-   properties - in open frame
+-   sender_options - defaults for open_sender
+-   receiver_options - defaults for open_receiver
+-   non_fatal_errors - an array of error conditions which if received
+    on connection close from peer should not prevent reconnect (by
+    default this only includes amqp:connection:forced)
+-   all_errors_non_fatal - a boolean which determines if rhea's auto-reconnect should attempt reconnection on all fatal errors
 
 If options is undefined, the client will attempt to obtain default
 options from a JSON config file. This file is of similar structure to
@@ -233,16 +233,16 @@ in the current directory, in <home>/.config/messaging or
 
 The config file offers only limited configurability, specifically:
 
-- scheme
-- host
-- port
-- user - (note not username)
-- password
-- sasl - (a nested object with field enabled)
-- sasl_mechanisms
-- tls - (a nested object with fields key, cert, ca for paths to
-  correspoding files)
-- verify
+-   scheme
+-   host
+-   port
+-   user - (note not username)
+-   password
+-   sasl - (a nested object with field enabled)
+-   sasl_mechanisms
+-   tls - (a nested object with fields key, cert, ca for paths to
+    correspoding files)
+-   verify
 
 ##### listen(options)
 
@@ -262,17 +262,17 @@ following fields:
 The options argument is an object that may contain any of the
 following fields:
 
-- transport - undefined, 'tcp' or 'tls', determines if
-  `net.createServer` or `tls.createServer` options are accepted
-- host
-- port
+-   transport - undefined, 'tcp' or 'tls', determines if
+    `net.createServer` or `tls.createServer` options are accepted
+-   host
+-   port
 
 ##### create_container()
 
 Returns a new container instance. The method takes an options object
 which can contain the following field:
 
-- id
+-   id
 
 If no id is specified a new uuid will be generated.
 
@@ -314,38 +314,38 @@ The argument to this method can either be a simple string indicating
 the source of messages of interest (e.g. a queue name), or an options
 object that may contain any of the following fields:
 
-- source - The source from which messages are received. This can be
-  a simple string address/name or a nested object itself containing
-  the fields:
-  - address
-  - dynamic
-  - expiry_policy
-  - durable
-- target - The target of a receiving link is the local
-  identifier. It is often not needed, but can be set if it is,
-- name - The name of the link. This should be unique for the
-  container. If not specified a unqiue name is generated.
-- credit_window - A 'prefetch' window controlling the flow of
-  messages over this receiver. Defaults to 500 if not specified. A
-  value of 0 can be used to turn of automatic flow control and
-  manage it directly.
-- autoaccept - Whether received messages should be automatically
-  accepted. Defaults to true. If set to false, the application
-  should call accept, release or reject on the <a
-  href="#receiver">delivery</a> field of the context passed to the
-  message event.
-- autosettle - Whether received messages should be automatically
-  settled once the remote settles them. Defaults to true.
+-   source - The source from which messages are received. This can be
+    a simple string address/name or a nested object itself containing
+    the fields:
+    -   address
+    -   dynamic
+    -   expiry_policy
+    -   durable
+-   target - The target of a receiving link is the local
+    identifier. It is often not needed, but can be set if it is,
+-   name - The name of the link. This should be unique for the
+    container. If not specified a unqiue name is generated.
+-   credit_window - A 'prefetch' window controlling the flow of
+    messages over this receiver. Defaults to 500 if not specified. A
+    value of 0 can be used to turn of automatic flow control and
+    manage it directly.
+-   autoaccept - Whether received messages should be automatically
+    accepted. Defaults to true. If set to false, the application
+    should call accept, release or reject on the <a
+    href="#receiver">delivery</a> field of the context passed to the
+    message event.
+-   autosettle - Whether received messages should be automatically
+    settled once the remote settles them. Defaults to true.
 
 And attach frame fields:
 
-- snd_settle_mode
-- rcv_settle_mode
-- unsettled
-- max_message_size
-- offered_capabilities
-- desired_capabilities
-- properties
+-   snd_settle_mode
+-   rcv_settle_mode
+-   unsettled
+-   max_message_size
+-   offered_capabilities
+-   desired_capabilities
+-   properties
 
 Note: If the link doesn't specify a value for the credit_window and
 autoaccept options, the connection options are consulted followed by
@@ -363,19 +363,19 @@ The argument to this method can either be a simple string indicating
 the target for messages of interest (e.g. a queue name), or an options
 object that may contain any of the following fields:
 
-- target - The target to which messages are sent. This can be a
-  simple string address/name or a nested object itself containing
-  the fields:
-  - address
-  - dynamic
-  - expiry_policy
-  - durable
-- source - The source of a sending link is the local identifier. It
-  is usually not needed, but can be set if it is,
-- name - The name of the link. This should be unique for the
-  container. If not specified a unqiue name is generated.
-- autosettle - Whether sent messages should be automatically
-  settled once the peer settles them. Defaults to true.
+-   target - The target to which messages are sent. This can be a
+    simple string address/name or a nested object itself containing
+    the fields:
+    -   address
+    -   dynamic
+    -   expiry_policy
+    -   durable
+-   source - The source of a sending link is the local identifier. It
+    is usually not needed, but can be set if it is,
+-   name - The name of the link. This should be unique for the
+    container. If not specified a unqiue name is generated.
+-   autosettle - Whether sent messages should be automatically
+    settled once the peer settles them. Defaults to true.
 
 And attach frame fields as for `open_receiver`.
 
@@ -706,36 +706,36 @@ Raised when remote settled the message.
 
 A message is an object that may contain the following fields:
 
-- durable
-- priority
-- ttl
-- first_acquirer
-- delivery_count
-- delivery_annotations, an object/map of non-standard delivery
-  annotations sent to link recipient peer that should be negotiated
-  at link attach
-- message_annotations, an object/map of non-standard delivery
-  annotations propagated across all steps that should be negotiated
-  at link attach
-- message_id
-- user_id
-- to
-- subject
-- reply_to
-- correlation_id
-- content_type
-- content_encoding
-- absolute_expiry_time
-- creation_time
-- group_id
-- group_sequence
-- reply_to_group_id
-- application_properties, an object/map which can take arbitrary,
-  application defined named simple values
-- body, which can be of any AMQP type type or `data_section`,
-  `data_sections`, `sequence_section` or `sequence_sections` from
-  `rhea.message`.
-- footer, an objec`t/map for HMACs or signatures or similar
+-   durable
+-   priority
+-   ttl
+-   first_acquirer
+-   delivery_count
+-   delivery_annotations, an object/map of non-standard delivery
+    annotations sent to link recipient peer that should be negotiated
+    at link attach
+-   message_annotations, an object/map of non-standard delivery
+    annotations propagated across all steps that should be negotiated
+    at link attach
+-   message_id
+-   user_id
+-   to
+-   subject
+-   reply_to
+-   correlation_id
+-   content_type
+-   content_encoding
+-   absolute_expiry_time
+-   creation_time
+-   group_id
+-   group_sequence
+-   reply_to_group_id
+-   application_properties, an object/map which can take arbitrary,
+    application defined named simple values
+-   body, which can be of any AMQP type type or `data_section`,
+    `data_sections`, `sequence_section` or `sequence_sections` from
+    `rhea.message`.
+-   footer, an objec`t/map for HMACs or signatures or similar
 
 Messages are passed to the send() method of Connection or Sender, and
 are made available as `message` on the event context for the `message`
@@ -748,21 +748,21 @@ the state of a message transfer.
 
 The methods on a delivery object are:
 
-- accept, which will positively acknowledge the receipt of the
-  message
-- release, which will inform the sender that the message can be
-  redelivered (to this or to any other receiver). The release can be
-  controlled through an object passed in with one or more fo the
-  following fields:
-  - delivery_failed, if true the sender should increment the
-    delivery_count on the next redelivery attempt, if false it
-    should not
-  - undeliverable_here, if true the sender should not try to
-    redeliver the same message to this receiver
-- reject, which will inform the sender that the message is invalid
-  in some way.
-- modified, which sets the modified outcome as defined in the AMQP
-  1.0 specification.
+-   accept, which will positively acknowledge the receipt of the
+    message
+-   release, which will inform the sender that the message can be
+    redelivered (to this or to any other receiver). The release can be
+    controlled through an object passed in with one or more fo the
+    following fields:
+    -   delivery_failed, if true the sender should increment the
+        delivery_count on the next redelivery attempt, if false it
+        should not
+    -   undeliverable_here, if true the sender should not try to
+        redeliver the same message to this receiver
+-   reject, which will inform the sender that the message is invalid
+    in some way.
+-   modified, which sets the modified outcome as defined in the AMQP
+    1.0 specification.
 
 If autoaccept is disabled on a receiver, the application should ensure
 that it accepts (or releases or rejects) all messages received.

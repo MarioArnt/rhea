@@ -13,35 +13,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-var container = require("rhea")
+var container = require('rhea')
 
-var args = require("./options.js")
-  .options({
-    m: {
-      alias: "messages",
-      default: 100,
-      describe: "number of messages to expect",
-    },
-    p: { alias: "port", default: 8888, describe: "port to connect to" },
-  })
-  .help("help").argv
+var args = require('./options.js')
+    .options({
+        m: {
+            alias: 'messages',
+            default: 100,
+            describe: 'number of messages to expect',
+        },
+        p: { alias: 'port', default: 8888, describe: 'port to connect to' },
+    })
+    .help('help').argv
 
 var received = 0
 var expected = args.messages
 
 var server = container.listen({ port: args.port })
 
-container.on("message", function (context) {
-  if (context.message.id && context.message.id < received) {
-    // ignore duplicate message
-    return
-  }
-  if (expected === 0 || received < expected) {
-    console.log(context.message.body)
-    if (++received === expected) {
-      context.receiver.detach()
-      context.connection.close()
-      server.close()
+container.on('message', function (context) {
+    if (context.message.id && context.message.id < received) {
+        // ignore duplicate message
+        return
     }
-  }
+    if (expected === 0 || received < expected) {
+        console.log(context.message.body)
+        if (++received === expected) {
+            context.receiver.detach()
+            context.connection.close()
+            server.close()
+        }
+    }
 })
