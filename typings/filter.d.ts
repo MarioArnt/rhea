@@ -1,9 +1,9 @@
 /// <reference types="node" />
 
-import * as types from "./types";
+import * as types from './types';
 
 export interface filter {
   selector: (s: string) => {
-    [x: string] : types.Typed;
+    [x: string]: types.Typed;
   };
 }

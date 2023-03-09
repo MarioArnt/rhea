@@ -9,15 +9,9 @@
     "strict": true,
     "declaration": true,
     "declarationDir": "./typings",
-    "lib": [
-      "es2018"
-    ]
+    "lib": ["es2018"]
   },
   "compileOnSave": true,
-  "include": [
-    "typings/*"
-  ],
-  "exclude": [
-    "node_modules/*"
-  ]
+  "include": ["typings/*"],
+  "exclude": ["node_modules/*"]
 }

@@ -1,15 +1,23 @@
 /// <reference types="node" />
 
-import { sasl } from "./sasl";
-import { generate_uuid, string_to_uuid, uuid_to_string } from "./util";
-import { ws } from "./ws";
-import { filter } from "./filter";
-import { EventEmitter } from "events";
-import { Connection, ConnectionOptions, ServerConnectionOptions, TlsServerConnectionOptions } from "./connection";
-import { Server, Socket } from "net";
-import { Server as TlsServer, ConnectionOptions as TlsConnectionOptions } from "tls";
-import { message } from "./message";
-import { types } from "./types";
+import { sasl } from './sasl';
+import { generate_uuid, string_to_uuid, uuid_to_string } from './util';
+import { ws } from './ws';
+import { filter } from './filter';
+import { EventEmitter } from 'events';
+import {
+  Connection,
+  ConnectionOptions,
+  ServerConnectionOptions,
+  TlsServerConnectionOptions,
+} from './connection';
+import { Server, Socket } from 'net';
+import {
+  Server as TlsServer,
+  ConnectionOptions as TlsConnectionOptions,
+} from 'tls';
+import { message } from './message';
+import { types } from './types';
 
 interface ContainerOptions {
   id?: string;

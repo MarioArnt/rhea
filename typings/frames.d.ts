@@ -15,7 +15,11 @@ export interface frames {
   write_header(buffer: Buffer, header: header): number;
   read_frame(buffer: Buffer): any;
   write_frame(frame: any): Buffer;
-  amqp_frame(channel: any, performative: any, payload: any): {
+  amqp_frame(
+    channel: any,
+    performative: any,
+    payload: any,
+  ): {
     [x: string]: any;
     channel: any | 0;
     type: 0x00;

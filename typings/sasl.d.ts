@@ -1,9 +1,9 @@
 /// <reference types="node" />
 
-import { Connection } from "./connection";
-import { Transport } from "./transport";
-import { Socket } from "net";
-import { frames } from "./frames";
+import { Connection } from './connection';
+import { Transport } from './transport';
+import { Socket } from 'net';
+import { frames } from './frames';
 
 interface Mechanisms {
   [x: string]: Function;
@@ -95,8 +95,8 @@ declare class SaslClient {
 declare class SelectiveServer {
   header_received: boolean;
   transports: {
-    0: Transport,
-    3: SaslServer
+    0: Transport;
+    3: SaslServer;
   };
   selected?: any;
   constructor(connection: Connection, mechanisms: Mechanisms);
@@ -109,14 +109,14 @@ declare class SelectiveServer {
 type DefaultServerMechanisms = {
   enable_anonymous(): void;
   enable_plain(): void;
-}
+};
 
 type DefaultClientMmechanisms = {
   enable_anonymous(name: string): void;
   enable_plain(username: string, password: string): void;
   enable_external(): void;
   enable_xoauth2(username: string, token: string): void;
-}
+};
 
 declare type serverMechanisms = () => DefaultServerMechanisms;
 declare type clientMechanisms = () => DefaultClientMmechanisms;

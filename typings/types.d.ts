@@ -1,6 +1,6 @@
 /// <reference types="node" />
 
-import { frames } from "./frames";
+import { frames } from './frames';
 
 export interface ICompositeType {
   name: string;
@@ -27,45 +27,45 @@ export interface BufferOps {
   write: (buffer: Buffer, value: any, offset: number) => void;
 }
 export declare enum TypeNames {
-  Null = "Null",
-  Boolean = "Boolean",
-  True = "True",
-  False = "False",
-  Ubyte = "Ubyte",
-  Ushort = "Ushort",
-  Uint = "Uint",
-  SmallUint = "SmallUint",
-  Uint0 = "Uint0",
-  Ulong = "Ulong",
-  SmallUlong = "SmallUlong",
-  Ulong0 = "Ulong0",
-  Byte = "Byte",
-  Short = "Short",
-  Int = "Int",
-  SmallInt = "SmallInt",
-  Long = "Long",
-  SmallLong = "SmallLong",
-  Float = "Float",
-  Double = "Double",
-  Decimal32 = "Decimal32",
-  Decimal64 = "Decimal64",
-  Decimal128 = "Decimal128",
-  CharUTF32 = "CharUTF32",
-  Timestamp = "Timestamp",
-  Uuid = "Uuid",
-  Vbin8 = "Vbin8",
-  Vbin32 = "Vbin32",
-  Str8 = "Str8",
-  Str32 = "Str32",
-  Sym8 = "Sym8",
-  Sym32 = "Sym32",
-  List0 = "List0",
-  List8 = "List8",
-  List32 = "List32",
-  Map8 = "Map8",
-  Map32 = "Map32",
-  Array8 = "Array8",
-  Array32 = "Array32",
+  Null = 'Null',
+  Boolean = 'Boolean',
+  True = 'True',
+  False = 'False',
+  Ubyte = 'Ubyte',
+  Ushort = 'Ushort',
+  Uint = 'Uint',
+  SmallUint = 'SmallUint',
+  Uint0 = 'Uint0',
+  Ulong = 'Ulong',
+  SmallUlong = 'SmallUlong',
+  Ulong0 = 'Ulong0',
+  Byte = 'Byte',
+  Short = 'Short',
+  Int = 'Int',
+  SmallInt = 'SmallInt',
+  Long = 'Long',
+  SmallLong = 'SmallLong',
+  Float = 'Float',
+  Double = 'Double',
+  Decimal32 = 'Decimal32',
+  Decimal64 = 'Decimal64',
+  Decimal128 = 'Decimal128',
+  CharUTF32 = 'CharUTF32',
+  Timestamp = 'Timestamp',
+  Uuid = 'Uuid',
+  Vbin8 = 'Vbin8',
+  Vbin32 = 'Vbin32',
+  Str8 = 'Str8',
+  Str32 = 'Str32',
+  Sym8 = 'Sym8',
+  Sym32 = 'Sym32',
+  List0 = 'List0',
+  List8 = 'List8',
+  List32 = 'List32',
+  Map8 = 'Map8',
+  Map32 = 'Map32',
+  Array8 = 'Array8',
+  Array32 = 'Array32',
 }
 export declare class Typed {
   type: TypeDesc;
@@ -83,8 +83,8 @@ export declare class TypeDesc {
   typecode: number;
   width: number;
   category?: number;
-  read?: BufferOps["read"];
-  write?: BufferOps["write"];
+  read?: BufferOps['read'];
+  write?: BufferOps['write'];
   encoding?: string;
   create: CreateTypeDesc;
   constructor(name: string, typecode: number, props?: any, empty_value?: any);
@@ -105,8 +105,8 @@ export declare class Reader {
   read_array_items(n: number, type: TypeDesc): Typed[];
   read_n(n: any): any[];
   read_size_count(width: number): {
-    'size': number;
-    'count': number;
+    size: number;
+    count: number;
   };
   read_compound(type: TypeDesc): Typed;
   read_array(type: TypeDesc): Typed;
@@ -165,7 +165,7 @@ export declare interface types {
   is_list(o: Typed): boolean;
   is_map(o: Typed): boolean;
   wrap_boolean(v: any): Typed;
-  wrap_ulong(l: Buffer | number | Number): any;
+  wrap_ulong(l: Buffer | number | number): any;
   wrap_uint(l: number): Typed;
   wrap_ushort(l: any): Typed;
   wrap_ubyte(l: any): Typed;
@@ -186,7 +186,7 @@ export declare interface types {
   wrap_symbolic_map(m: object): Typed;
   wrap_array(l: any, code: number, descriptors: any): Typed;
   wrap(o: any): Typed;
-  wrap_described(value: any, descriptor: string | number | Number): Typed;
+  wrap_described(value: any, descriptor: string | number | number): Typed;
   wrap_message_id(o: any): any;
   described_nc(descriptor: any[] | any, o: any): any;
   described(descriptor: any, o: any): any;

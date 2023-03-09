@@ -1,7 +1,7 @@
 /// <reference types="node" />
 
-import { header, frames } from "./frames";
-import { Socket } from "net";
+import { frames, header } from './frames';
+import { Socket } from 'net';
 
 export declare interface Transport {
   identifier: string;

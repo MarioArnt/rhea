@@ -1,12 +1,12 @@
 /// <reference types="node" />
 
-import { Connection, EventContext } from "./connection";
-import { EndpointState } from "./endpoint";
-import { EventEmitter } from "events";
-import { link, Sender, Receiver } from "./link";
-import { frames } from "./frames";
-import { AmqpError, MessageAnnotations } from ".";
-import { DeliveryOutcome } from "./message";
+import { Connection, EventContext } from './connection';
+import { EndpointState } from './endpoint';
+import { EventEmitter } from 'events';
+import { Receiver, Sender, link } from './link';
+import { frames } from './frames';
+import { AmqpError, MessageAnnotations } from '.';
+import { DeliveryOutcome } from './message';
 
 export interface ReleaseParameters {
   delivery_failed?: boolean;
@@ -14,11 +14,11 @@ export interface ReleaseParameters {
   message_annotations?: MessageAnnotations;
 }
 
-export declare interface Delivery {
+export declare interface Delivery<T> {
   readonly format: number;
   readonly id: number;
   readonly tag: Buffer | string;
-  readonly link: Sender | Receiver;
+  readonly link: T;
   readonly remote_settled: boolean;
   readonly sent: boolean;
   readonly settled: boolean;
@@ -71,18 +71,18 @@ export declare enum SessionEvents {
    * @property {string} sessionOpen Raised when the remote peer indicates the session is
    * open (i.e. attached in AMQP parlance).
    */
-  sessionOpen = "session_open",
+  sessionOpen = 'session_open',
   /**
    * @property {string} sessionError Raised when the remote peer receives an error. The context
    * may also have an error property giving some information about the reason for the error.
    */
-  sessionError = "session_error",
+  sessionError = 'session_error',
   /**
    * @property {string} sessionClose Raised when the remote peer indicates the session is closed.
    */
-  sessionClose = "session_close",
+  sessionClose = 'session_close',
   /**
    * @property {string} settled Raised when the session receives a disposition.
    */
-  settled = "settled"
+  settled = 'settled',
 }

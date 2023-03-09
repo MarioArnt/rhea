@@ -1,10 +1,19 @@
 /// <reference types="node" />
 
-import { EventEmitter } from "events";
-import { frames } from "./frames";
-import { EndpointState } from "./endpoint";
-import { Delivery, Session } from "./session";
-import { EventContext, Message, TerminusOptions, Connection, LinkOptions, Source, AmqpError, Dictionary } from "./connection";
+import { EventEmitter } from 'events';
+import { frames } from './frames';
+import { EndpointState } from './endpoint';
+import { Delivery, Session } from './session';
+import {
+  EventContext,
+  Message,
+  TerminusOptions,
+  Connection,
+  LinkOptions,
+  Source,
+  AmqpError,
+  Dictionary,
+} from './connection';
 
 export declare interface FlowController {
   window: number;
@@ -18,7 +27,13 @@ export declare interface LinkError extends Error {
 }
 
 export declare interface link extends EventEmitter {
-  init(session: Session, name: string, local_handle: any, opts: any, is_receiver: boolean): void;
+  init(
+    session: Session,
+    name: string,
+    local_handle: any,
+    opts: any,
+    is_receiver: boolean,
+  ): void;
   session: Session;
   connection: Connection;
   name: string;
@@ -90,36 +105,36 @@ export declare enum ReceiverEvents {
   /**
    * @property {string} message Raised when a message is received.
    */
-  message = "message",
+  message = 'message',
   /**
    * @property {string} receiverOpen Raised when the remote peer indicates the link is
    * open (i.e. attached in AMQP parlance).
    */
-  receiverOpen = "receiver_open",
+  receiverOpen = 'receiver_open',
   /**
    * @property {string} receiverDrained Raised when the remote peer
    * indicates that it has drained all credit (and therefore there
    * are no more messages at present that it can send).
    */
-  receiverDrained  = 'receiver_drained',
+  receiverDrained = 'receiver_drained',
   /**
    * @property {string} receiverFlow Raised when a flow is received for receiver.
    */
-  receiverFlow = "receiver_flow",
+  receiverFlow = 'receiver_flow',
   /**
    * @property {string} receiverError Raised when the remote peer closes the receiver with an
    * error. The context may also have an error property giving some information about the reason
    * for the error.
    */
-  receiverError = "receiver_error",
+  receiverError = 'receiver_error',
   /**
    * @property {string} receiverClose Raised when the remote peer indicates the link is closed.
    */
-  receiverClose = "receiver_close",
+  receiverClose = 'receiver_close',
   /**
    * @property {string} settled Raised when the receiver link receives a disposition.
    */
-  settled = "settled"
+  settled = 'settled',
 }
 
 export declare enum SenderEvents {
@@ -127,12 +142,12 @@ export declare enum SenderEvents {
    * @property {string} sendable Raised when the sender has sufficient credit to be able
    * to transmit messages to its peer.
    */
-  sendable = "sendable",
+  sendable = 'sendable',
   /**
    * @property {string} senderOpen Raised when the remote peer indicates the link is
    * open (i.e. attached in AMQP parlance).
    */
-  senderOpen = "sender_open",
+  senderOpen = 'sender_open',
   /**
    * @property {string} senderDraining Raised when the remote peer
    * requests that the sender drain its credit; sending all
@@ -143,35 +158,35 @@ export declare enum SenderEvents {
   /**
    * @property {string} senderFlow Raised when a flow is received for sender.
    */
-  senderFlow = "sender_flow",
+  senderFlow = 'sender_flow',
   /**
    * @property {string} senderError Raised when the remote peer closes the sender with an
    * error. The context may also have an error property giving some information about the
    * reason for the error.
    */
-  senderError = "sender_error",
+  senderError = 'sender_error',
   /**
    * @property {string} senderClose Raised when the remote peer indicates the link is closed.
    */
-  senderClose = "sender_close",
+  senderClose = 'sender_close',
   /**
    * @property {string} accepted Raised when a sent message is accepted by the peer.
    */
-  accepted = "accepted",
+  accepted = 'accepted',
   /**
    * @property {string} released Raised when a sent message is released by the peer.
    */
-  released = "released",
+  released = 'released',
   /**
    * @property {string} rejected Raised when a sent message is rejected by the peer.
    */
-  rejected = "rejected",
+  rejected = 'rejected',
   /**
    * @property {string} modified Raised when a sent message is modified by the peer.
    */
-  modified = "modified",
+  modified = 'modified',
   /**
    * @property {string} settled Raised when the sender link receives a disposition.
    */
-  settled = "settled"
+  settled = 'settled',
 }

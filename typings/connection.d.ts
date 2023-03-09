@@ -1,13 +1,17 @@
 /// <reference types="node" />
 
-import { Session, Delivery } from "./session";
-import { Sender, Receiver, link } from "./link";
-import { NetConnectOpts, ListenOptions, Socket } from "net";
-import { frames } from "./frames";
-import { EventEmitter } from "events";
-import { Container } from "./container";
-import { ConnectionOptions as TlsConnectionOptions, PeerCertificate, TlsOptions } from "tls";
-import { ConnectionError } from "./errors";
+import { Delivery, Session } from './session';
+import { Receiver, Sender, link } from './link';
+import { ListenOptions, NetConnectOpts, Socket } from 'net';
+import { frames } from './frames';
+import { EventEmitter } from 'events';
+import { Container } from './container';
+import {
+  ConnectionOptions as TlsConnectionOptions,
+  PeerCertificate,
+  TlsOptions,
+} from 'tls';
+import { ConnectionError } from './errors';
 
 /**
  * Describes the signature of the event handler for any event emitted by rhea.
@@ -56,7 +60,7 @@ export interface ConnectionDetails {
   /**
    * @property {string} [transport] - The transport option.
    */
-  transport?: "tls" | "ssl" | "tcp";
+  transport?: 'tls' | 'ssl' | 'tcp';
 }
 
 /**
@@ -135,8 +139,8 @@ interface NetTransportOptions {
   /**
    * @property {string} [transport] - The transport option. This is ignored if connection_details is set.
    */
-   transport?: "tcp";
- }
+  transport?: 'tcp';
+}
 
 /**
  * Defines the common options that can be provided for TLS client connections.
@@ -146,7 +150,7 @@ interface TlsTransportOptions {
   /**
    * @property {string} transport - The transport option to request TLS connection. This is ignored if connection_details is set.
    */
-   transport: "tls" | "ssl";
+  transport: 'tls' | 'ssl';
 }
 
 /**
@@ -207,26 +211,40 @@ interface ClientConnectionOptions extends CommonConnectionOptions {
   all_errors_non_fatal?: boolean;
 }
 
-type NetClientConnectionOptions = NetTransportOptions & ClientConnectionOptions & NetConnectOpts
-type TlsClientConnectionOptions = TlsTransportOptions & ClientConnectionOptions & TlsConnectionOptions
+type NetClientConnectionOptions = NetTransportOptions &
+  ClientConnectionOptions &
+  NetConnectOpts;
+type TlsClientConnectionOptions = TlsTransportOptions &
+  ClientConnectionOptions &
+  TlsConnectionOptions;
 
-export type ConnectionOptions = NetClientConnectionOptions | TlsClientConnectionOptions;
+export type ConnectionOptions =
+  | NetClientConnectionOptions
+  | TlsClientConnectionOptions;
 
 /** `net.createServer` options that have no own type in @types/node@10.17.60 */
-type NetOptions = { allowHalfOpen?: boolean, pauseOnConnect?: boolean }
+type NetOptions = { allowHalfOpen?: boolean; pauseOnConnect?: boolean };
 /**
  * Defines the options that can be provided while creating a server connection.
  */
-type NetServerConnectionOptions = NetTransportOptions & CommonConnectionOptions & ListenOptions & NetOptions
+type NetServerConnectionOptions = NetTransportOptions &
+  CommonConnectionOptions &
+  ListenOptions &
+  NetOptions;
 /**
  * Defines the options that can be provided while creating a TLS server connection.
  */
-type TlsServerConnectionOptions = TlsTransportOptions & CommonConnectionOptions & ListenOptions & TlsOptions
+type TlsServerConnectionOptions = TlsTransportOptions &
+  CommonConnectionOptions &
+  ListenOptions &
+  TlsOptions;
 
 /**
  * Defines the options that can be provided while creating a server connection.
  */
-export type ServerConnectionOptions = NetServerConnectionOptions | TlsServerConnectionOptions
+export type ServerConnectionOptions =
+  | NetServerConnectionOptions
+  | TlsServerConnectionOptions;
 
 /**
  * Defines the common set of options that can be provided while creating a link (sender, receiver).
@@ -326,14 +344,14 @@ export interface TargetTerminusOptions extends BaseTerminusOptions {
  */
 export interface Source extends TerminusOptions {
   /**
-  * @property {string} [distribution_mode] The distribution mode of the link.
-  * Valid values are:
-  * - **move** - once successfully transferred over the link, the message will no longer be
-  * available to other links from the same node.
-  * - **copy** - once successfully transferred over the link, the message is still available
-  * for other links from the same node.
-  */
-  distribution_mode?: "move" | "copy";
+   * @property {string} [distribution_mode] The distribution mode of the link.
+   * Valid values are:
+   * - **move** - once successfully transferred over the link, the message will no longer be
+   * available to other links from the same node.
+   * - **copy** - once successfully transferred over the link, the message is still available
+   * for other links from the same node.
+   */
+  distribution_mode?: 'move' | 'copy';
   /**
    * @property {object} [filter] - The filters to be added for the terminus.
    */
@@ -602,7 +620,7 @@ export interface EventContext {
   /**
    * @property {Delivery} [delivery] The amqp delivery that is received after sending a message.
    */
-  delivery?: Delivery;
+  delivery?: Delivery<any>;
   /**
    * @property {AmqpMessage} [message] The amqp message that is received in the message event
    * handler when rhea emits a message event on a receiver.
@@ -630,7 +648,7 @@ export interface EventContext {
   error?: Error | ConnectionError;
   /**
    * @property {boolean} [reconnecting] The value is true if the library is attempting to automatically
-   * reconnect and false if it has reached the reconnect limit. If reconnect has not been enabled
+   * reconnect and false if it has reached to reconnect limit. If reconnect has not been enabled
    * or if the connection is a tcp server, then the reconnecting property is undefined. This property
    * is used in conjunction with "disconnected" event.
    */
@@ -679,7 +697,7 @@ export declare interface Connection extends EventEmitter {
   attach_receiver(options?: ReceiverOptions | string): Receiver;
   open_receiver(options?: ReceiverOptions | string): Receiver;
   get_option(name: string, default_value: any): any;
-  send(msg: Message): Delivery;
+  send(msg: Message): Delivery<Sender>;
   get_error(): ConnectionError | undefined;
   open(): void;
   close(error?: AmqpError): void;
@@ -709,24 +727,24 @@ export declare enum ConnectionEvents {
   /**
    * @property {string} connectionOpen Raised when the remote peer indicates the connection is open.
    */
-  connectionOpen = "connection_open",
+  connectionOpen = 'connection_open',
   /**
    * @property {string} connectionClose Raised when the remote peer indicates the connection is closed.
    */
-  connectionClose = "connection_close",
+  connectionClose = 'connection_close',
   /**
    * @property {string} connectionError Raised when the remote peer indicates an error occurred on
    * the connection.
    */
-  connectionError = "connection_error",
+  connectionError = 'connection_error',
   /**
    * @property {string} protocolError Raised when a protocol error is received on the underlying socket.
    */
-  protocolError = "protocol_error",
+  protocolError = 'protocol_error',
   /**
    * @property {string} error Raised when an error is received on the underlying socket.
    */
-  error = "error",
+  error = 'error',
   /**
    * @property {string} disconnected Raised when the underlying tcp connection is lost. The context
    * has a reconnecting property which is true if the library is attempting to automatically reconnect
@@ -734,9 +752,9 @@ export declare enum ConnectionEvents {
    * is a tcp server, then the reconnecting property is undefined. The context may also have an error
    * property giving some information about the reason for the disconnect.
    */
-  disconnected = "disconnected",
+  disconnected = 'disconnected',
   /**
    * @property {string} settled Raised when the connection receives a disposition.
    */
-  settled = "settled"
+  settled = 'settled',
 }
