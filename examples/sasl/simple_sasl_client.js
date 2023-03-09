@@ -13,13 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-var container = require('rhea');
-var args = require('../options.js').options({
-    'username': { describe: 'username to connect with'},
-    'password': { describe: 'password to connect with (will use PLAIN)'},
-    'h': { alias: 'host', default: 'localhost', describe: 'dns or ip name of server where you want to connect'},
-    'p': { alias: 'port', default: 5671, describe: 'port to connect to'}
-}).help('help').argv;
+var container = require("rhea")
+var args = require("../options.js")
+  .options({
+    username: { describe: "username to connect with" },
+    password: { describe: "password to connect with (will use PLAIN)" },
+    h: {
+      alias: "host",
+      default: "localhost",
+      describe: "dns or ip name of server where you want to connect",
+    },
+    p: { alias: "port", default: 5671, describe: "port to connect to" },
+  })
+  .help("help").argv
 
 /**
  * Default SASL behaviour is as follows. If the username and password
@@ -28,13 +34,13 @@ var args = require('../options.js').options({
  * layer will be used.
  */
 if (args.username) {
-    container.options.username = args.username;
+  container.options.username = args.username
 }
 if (args.password) {
-    container.options.password = args.password;
+  container.options.password = args.password
 }
-container.on('connection_open', function (context) {
-    console.log('Connected!');
-    context.connection.close();
-});
-container.connect({ port: args.port, host: args.host });
+container.on("connection_open", function (context) {
+  console.log("Connected!")
+  context.connection.close()
+})
+container.connect({ port: args.port, host: args.host })

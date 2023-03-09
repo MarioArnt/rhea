@@ -13,34 +13,49 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-var container = require('rhea');
+var container = require("rhea")
 
-var args = require('./options.js').options({
-    'm': { alias: 'messages', default: 100, describe: 'number of messages to send'},
-    'n': { alias: 'node', default: 'examples', describe: 'name of node (e.g. queue) to which messages are sent'},
-    'h': { alias: 'host', default: 'localhost', describe: 'dns or ip name of server where you want to connect'},
-    'p': { alias: 'port', default: 5672, describe: 'port to connect to'}
-}).help('help').argv;
+var args = require("./options.js")
+  .options({
+    m: {
+      alias: "messages",
+      default: 100,
+      describe: "number of messages to send",
+    },
+    n: {
+      alias: "node",
+      default: "examples",
+      describe: "name of node (e.g. queue) to which messages are sent",
+    },
+    h: {
+      alias: "host",
+      default: "localhost",
+      describe: "dns or ip name of server where you want to connect",
+    },
+    p: { alias: "port", default: 5672, describe: "port to connect to" },
+  })
+  .help("help").argv
 
-var confirmed = 0, sent = 0;
-var total = args.messages;
+var confirmed = 0,
+  sent = 0
+var total = args.messages
 
-container.on('sendable', function (context) {
-    while (context.sender.sendable() && sent < total) {
-        sent++;
-        console.log('sent ' + sent);
-        context.sender.send({message_id:sent, body:{'sequence':sent}})
-    }
-});
-container.on('accepted', function (context) {
-    if (++confirmed === total) {
-        console.log('all messages confirmed');
-        context.connection.close();
-    }
-});
-container.on('disconnected', function (context) {
-    if (context.error) console.error('%s %j', context.error, context.error);
-    sent = confirmed;
-});
+container.on("sendable", function (context) {
+  while (context.sender.sendable() && sent < total) {
+    sent++
+    console.log("sent " + sent)
+    context.sender.send({ message_id: sent, body: { sequence: sent } })
+  }
+})
+container.on("accepted", function (context) {
+  if (++confirmed === total) {
+    console.log("all messages confirmed")
+    context.connection.close()
+  }
+})
+container.on("disconnected", function (context) {
+  if (context.error) console.error("%s %j", context.error, context.error)
+  sent = confirmed
+})
 
-container.connect({port: args.port, host: args.host}).open_sender(args.node);
+container.connect({ port: args.port, host: args.host }).open_sender(args.node)

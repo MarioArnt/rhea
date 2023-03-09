@@ -13,32 +13,59 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-var container = require('rhea');
-var filters = require('rhea').filter;
+var container = require("rhea")
+var filters = require("rhea").filter
 
-var args = require('../options.js').options({
-    's': { alias: 'selector', default: "colour = 'red'", describe: 'the selector string to use'},
-    'm': { alias: 'messages', default: 100, describe: 'number of messages to expect'},
-    'n': { alias: 'node', default: 'examples', describe: 'name of node (e.g. queue or topic) from which messages are received'},
-    'h': { alias: 'host', default: 'localhost', describe: 'dns or ip name of server where you want to connect'},
-    'p': { alias: 'port', default: 5672, describe: 'port to connect to'}
-}).help('help').argv;
+var args = require("../options.js")
+  .options({
+    s: {
+      alias: "selector",
+      default: "colour = 'red'",
+      describe: "the selector string to use",
+    },
+    m: {
+      alias: "messages",
+      default: 100,
+      describe: "number of messages to expect",
+    },
+    n: {
+      alias: "node",
+      default: "examples",
+      describe:
+        "name of node (e.g. queue or topic) from which messages are received",
+    },
+    h: {
+      alias: "host",
+      default: "localhost",
+      describe: "dns or ip name of server where you want to connect",
+    },
+    p: { alias: "port", default: 5672, describe: "port to connect to" },
+  })
+  .help("help").argv
 
-var received = 0;
-var expected = args.messages;
+var received = 0
+var expected = args.messages
 
-container.on('message', function (context) {
-    if (context.message.properties && context.message.properties.id && context.message.properties.id < received) {
-        // ignore duplicate message
-        return;
+container.on("message", function (context) {
+  if (
+    context.message.properties &&
+    context.message.properties.id &&
+    context.message.properties.id < received
+  ) {
+    // ignore duplicate message
+    return
+  }
+  if (expected === 0 || received < expected) {
+    console.log(context.message.body)
+    if (++received === expected) {
+      context.receiver.detach()
+      context.connection.close()
     }
-    if (expected === 0 || received < expected) {
-        console.log(context.message.body);
-        if (++received === expected) {
-            context.receiver.detach();
-            context.connection.close();
-        }
-    }
-});
+  }
+})
 
-container.connect({ port: args.port, host: args.host }).open_receiver({source:{address:args.node, filter:filters.selector(args.selector)}});
+container
+  .connect({ port: args.port, host: args.host })
+  .open_receiver({
+    source: { address: args.node, filter: filters.selector(args.selector) },
+  })

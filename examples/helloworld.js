@@ -14,22 +14,28 @@
  * limitations under the License.
  */
 
-var args = require('./options.js').options({
-    'h': { alias: 'host', default: 'localhost', describe: 'dns or ip name of server where you want to connect'},
-    'p': { alias: 'port', default: 5672, describe: 'port to connect to'}
-}).help('help').argv;
+var args = require("./options.js")
+  .options({
+    h: {
+      alias: "host",
+      default: "localhost",
+      describe: "dns or ip name of server where you want to connect",
+    },
+    p: { alias: "port", default: 5672, describe: "port to connect to" },
+  })
+  .help("help").argv
 
-var container = require('rhea');
-container.on('connection_open', function (context) {
-    context.connection.open_receiver('examples');
-    context.connection.open_sender('examples');
-});
-container.on('message', function (context) {
-    console.log(context.message.body);
-    context.connection.close();
-});
-container.on('sendable', function (context) {
-    context.sender.send({body:'Hello World!'});
-    context.sender.detach();
-});
-container.connect({port: args.port, host: args.host});
+var container = require("rhea")
+container.on("connection_open", function (context) {
+  context.connection.open_receiver("examples")
+  context.connection.open_sender("examples")
+})
+container.on("message", function (context) {
+  console.log(context.message.body)
+  context.connection.close()
+})
+container.on("sendable", function (context) {
+  context.sender.send({ body: "Hello World!" })
+  context.sender.detach()
+})
+container.connect({ port: args.port, host: args.host })

@@ -13,40 +13,48 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-var client = require('rhea');
-var WebSocket = require('ws');
-var ws = client.websocket_connect(WebSocket);
+var client = require("rhea")
+var WebSocket = require("ws")
+var ws = client.websocket_connect(WebSocket)
 
-var args = require('../options.js').options({
-    'm': { alias: 'messages', default: 100, describe: 'number of messages to send'},
-    'u': { alias: 'url', default: 'ws://localhost:5673', describe: 'url to connect to'}
-}).help('help').argv;
+var args = require("../options.js")
+  .options({
+    m: {
+      alias: "messages",
+      default: 100,
+      describe: "number of messages to send",
+    },
+    u: {
+      alias: "url",
+      default: "ws://localhost:5673",
+      describe: "url to connect to",
+    },
+  })
+  .help("help").argv
 
-var requests = args.messages;
-var current = 1;
-var sender;
+var requests = args.messages
+var current = 1
+var sender
 
 function next_request() {
-    var msg = 'request-' + current;
-    sender.send({body:msg})
-    console.log('sent ' + msg);
+  var msg = "request-" + current
+  sender.send({ body: msg })
+  console.log("sent " + msg)
 }
 
-client.on('connection_open', function (context) {
-    next_request();
-});
+client.on("connection_open", function (context) {
+  next_request()
+})
 
-client.on('message', function (context) {
-    console.log('received ' + context.message.body);
-    if (current++ < requests) {
-        next_request();
-    } else {
-        context.connection.close();
-    }
-});
+client.on("message", function (context) {
+  console.log("received " + context.message.body)
+  if (current++ < requests) {
+    next_request()
+  } else {
+    context.connection.close()
+  }
+})
 
-var connection = client.connect({connection_details:ws(args.url)});
-sender = connection.open_sender('examples');
-connection.open_receiver('examples');
-
-
+var connection = client.connect({ connection_details: ws(args.url) })
+sender = connection.open_sender("examples")
+connection.open_receiver("examples")

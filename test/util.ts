@@ -14,46 +14,46 @@
  * limitations under the License.
  */
 
-import * as assert from "assert";
-const util = require("../lib/util");
-import * as rhea from "../";
+import * as assert from "assert"
+const util = require("../lib/util")
+import * as rhea from "../"
 
-describe('uuid', function() {
-    it('converts uuid string to buffer', function(done) {
-        var uuid = util.uuid4();
-        var uuid_string = rhea.uuid_to_string(uuid);
-        var uuid_bytes = rhea.string_to_uuid(uuid_string);
-        assert(uuid.equals(uuid_bytes));
+describe("uuid", function () {
+  it("converts uuid string to buffer", function (done) {
+    var uuid = util.uuid4()
+    var uuid_string = rhea.uuid_to_string(uuid)
+    var uuid_bytes = rhea.string_to_uuid(uuid_string)
+    assert(uuid.equals(uuid_bytes))
 
-        var valid = [
-            '8ce9bb92-6d10-1740-a7c1-812d5c153c54',
-            '8CE9BB92-6D10-1740-A7C1-812D5C153C54'
-        ];
-        valid.forEach(function (s) {
-            var bytes = rhea.string_to_uuid(s);
-            assert.equal(s.toLowerCase(), rhea.uuid_to_string(bytes));
-        });
-        done();
-    });
-    it('rejects invalid uuid string', function(done) {
-        var invalid = [
-            '00000000-0000-0000-0000-000-00000000',
-            '00000000-0000-0000-0000-000G00000000',
-            '8xe9bb92-6d10-1740-a7c1-812d5c153c54',
-            '8be9bb92-6d10-1740-a7c1-812d5c153c548be9bb92-6d10-1740-a7c1-812d5c153c54',
-            '000000-000000-0000-0000-000000000000'
-        ];
-        invalid.forEach(function (s) {
-            var failed;
-            try {
-                rhea.string_to_uuid(s);
-                failed = false;
-            } catch(e) {
-                failed = true;
-                assert.equal((e as TypeError).name, 'TypeError');
-            }
-            if (!failed) assert.fail('did not reject invalid uuid: ' + s);
-        });
-        done();
-    });
-});
+    var valid = [
+      "8ce9bb92-6d10-1740-a7c1-812d5c153c54",
+      "8CE9BB92-6D10-1740-A7C1-812D5C153C54",
+    ]
+    valid.forEach(function (s) {
+      var bytes = rhea.string_to_uuid(s)
+      assert.equal(s.toLowerCase(), rhea.uuid_to_string(bytes))
+    })
+    done()
+  })
+  it("rejects invalid uuid string", function (done) {
+    var invalid = [
+      "00000000-0000-0000-0000-000-00000000",
+      "00000000-0000-0000-0000-000G00000000",
+      "8xe9bb92-6d10-1740-a7c1-812d5c153c54",
+      "8be9bb92-6d10-1740-a7c1-812d5c153c548be9bb92-6d10-1740-a7c1-812d5c153c54",
+      "000000-000000-0000-0000-000000000000",
+    ]
+    invalid.forEach(function (s) {
+      var failed
+      try {
+        rhea.string_to_uuid(s)
+        failed = false
+      } catch (e) {
+        failed = true
+        assert.equal((e as TypeError).name, "TypeError")
+      }
+      if (!failed) assert.fail("did not reject invalid uuid: " + s)
+    })
+    done()
+  })
+})
